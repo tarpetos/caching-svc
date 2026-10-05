@@ -7,11 +7,98 @@ authors = [
     { name = "tarpetos", email = "hevlichtaras@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
-
-[project.scripts]
-caching-svc = "caching_svc:main"
+dependencies = [
+    "aiosqlite==0.22.1",
+    "asyncpg==0.31.0",
+    "fastapi==0.142.2",
+    "httpx==0.28.1",
+    "pydantic==2.13.5",
+    "pydantic-settings==2.15.0",
+    "sqlalchemy[asyncio]==2.1.3",
+    "uvicorn[standard]==0.54.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy==2.4.0",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "pytest-cov==7.1.0",
+    "ruff==0.16.10",
+]
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "tests",
+]
+builtins = ["_"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "ANN"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+ignore = [
+
+    "CPY001", "PLC0415",
+    "TID252",
+    "BLE001",
+    "COM812",
+    "D100", "D101", "D102", "D103", "D104", "D105", "D107", "D203", "D205", "D212", "D401", "D407", "D413",
+    "DTZ005",
+    "EM101", "EM102",
+    "FBT001", "FBT002", "FBT003",
+    "FIX001", "FIX002",
+    "G004",
+    "ISC001",
+    "N802",
+    "PLR0913", "PLR2004",
+    "S101", "S311",
+    "TD001", "TD002", "TD003", "TD004", "TD005",
+    "TRY002", "TRY003", "TRY400",
+]
+select = ["ALL"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest]
+asyncio_mode = "auto"
+addopts = ["--cov=caching_svc", "--cov-report=term-missing", "--cov-fail-under=100"]
