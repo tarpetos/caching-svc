@@ -3,6 +3,7 @@
 A small FastAPI microservice that builds **payloads** from two lists of strings and caches the results of an expensive
 **transformer** (a stand-in for an external service), plus **`cache-cli`**, a command-line client to exercise it.
 
+[![CI](https://github.com/tarpetos/caching-svc/actions/workflows/ci.yml/badge.svg)](https://github.com/tarpetos/caching-svc/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.14-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.142-009688)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.1-red)
@@ -50,11 +51,14 @@ A small FastAPI microservice that builds **payloads** from two lists of strings 
 | HTTP client   | `httpx2`                                                   |
 | Tooling       | [uv](https://docs.astral.sh/uv/), ruff, mypy, pytest       |
 | Deployment    | Docker, Docker Compose                                     |
+| CI            | GitHub Actions                                             |
 
 ## Project structure
 
 ```text
 caching-svc/
+├── .github/workflows/
+│   └── ci.yml            # Lint and Test jobs on every push and pull request
 ├── src/caching_svc/
 │   ├── api.py            # FastAPI app factory, routes and dependency wiring
 │   ├── cli.py            # cache-cli: argument parsing and the request loop
@@ -305,6 +309,20 @@ uv run mypy src tests                                # strict type check
 
 Every test gets its own temporary SQLite database. A `CountingTransformer` fake records calls, so tests assert exactly
 how many times the "external service" was hit. Pytest treats every warning as an error.
+
+### Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull request and on pushes to `master` and
+`develop`. It has two independent jobs, so a lint failure and a test failure are reported separately:
+
+| Job    | Commands                                                                   |
+|--------|----------------------------------------------------------------------------|
+| `Lint` | `ruff check`, `ruff format --check` (sources and tests), `mypy src tests`  |
+| `Test` | `pytest` with the 100% coverage gate                                       |
+
+Both jobs install the exact locked dependencies (`uv sync --locked`). To block merging until they pass, open
+**Settings → Branches → Branch protection rules** (or **Rules → Rulesets**) for `master`, enable
+**Require status checks to pass before merging** and select `Lint` and `Test`.
 
 ## Design decisions
 
