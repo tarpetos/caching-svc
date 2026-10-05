@@ -8,6 +8,7 @@ A small FastAPI microservice that builds **payloads** from two lists of strings 
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.142-009688)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.1-red)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 
 ---
 
@@ -26,6 +27,7 @@ A small FastAPI microservice that builds **payloads** from two lists of strings 
 - [Development](#development)
 - [Design decisions](#design-decisions)
 - [Shortcuts and limitations](#shortcuts-and-limitations)
+- [License](#license)
 
 ---
 
@@ -79,6 +81,7 @@ caching-svc/
 │   └── test_transformer.py
 ├── compose.yaml
 ├── Dockerfile
+├── LICENSE
 ├── pyproject.toml
 └── uv.lock
 ```
@@ -347,3 +350,7 @@ Both jobs install the exact locked dependencies (`uv sync --locked`). To block m
 | No authentication, rate limiting or input size limits | Out of scope for the task                                |
 | No container healthcheck                        | The slim image has no `curl`; a healthcheck needs an extra endpoint or package |
 | A missing `--input` file raises `FileNotFoundError` | The message already names the file                       |
+
+## License
+
+Released under the [MIT License](LICENSE).
