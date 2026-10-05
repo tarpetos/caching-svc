@@ -96,7 +96,11 @@ select = ["ALL"]
 convention = "google"
 
 [tool.ruff.lint.flake8-type-checking]
-runtime-evaluated-base-classes = ["pydantic.BaseModel", "pydantic_settings.BaseSettings"]
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "pydantic_settings.BaseSettings",
+    "sqlalchemy.orm.DeclarativeBase",
+]
 
 [tool.mypy]
 strict = true
@@ -105,3 +109,7 @@ plugins = ["pydantic.mypy"]
 [tool.pytest]
 asyncio_mode = "auto"
 addopts = ["--cov=caching_svc", "--cov-report=term-missing", "--cov-fail-under=100"]
+filterwarnings = ["error"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
