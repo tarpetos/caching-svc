@@ -58,7 +58,7 @@ A small FastAPI microservice that builds **payloads** from two lists of strings 
 ```text
 caching-svc/
 ├── .github/workflows/
-│   └── ci.yml            # Lint and Test jobs on every push and pull request
+│   └── ci.yml            # Lint and Test jobs on pull requests and pushes to master
 ├── src/caching_svc/
 │   ├── api.py            # FastAPI app factory, routes and dependency wiring
 │   ├── cli.py            # cache-cli: argument parsing and the request loop
@@ -310,8 +310,9 @@ how many times the "external service" was hit. Pytest treats every warning as an
 
 ### Continuous integration
 
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull request and on pushes to `master` and
-`develop`. It has two independent jobs, so a lint failure and a test failure are reported separately:
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull request and on pushes to `master`, so a
+commit on a pull request branch is checked once, not twice. It has two independent jobs, so a lint failure and a test
+failure are reported separately:
 
 | Job    | Commands                                                                   |
 |--------|----------------------------------------------------------------------------|
