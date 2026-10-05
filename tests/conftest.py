@@ -56,7 +56,7 @@ def service(repository: Repository, transformer: CountingTransformer) -> Payload
 
 @pytest.fixture
 def app(database_url: str, transformer: CountingTransformer) -> FastAPI:
-    return create_app(Settings(_env_file=None, database_url=database_url), transformer)
+    return create_app(Settings(database_url=database_url), transformer)
 
 
 @pytest.fixture

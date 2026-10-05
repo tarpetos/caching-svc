@@ -62,7 +62,7 @@ caching-svc/
 ├── src/caching_svc/
 │   ├── api.py            # FastAPI app factory, routes and dependency wiring
 │   ├── cli.py            # cache-cli: argument parsing and the request loop
-│   ├── config.py         # service settings read from the environment / .env
+│   ├── config.py         # service settings read from environment variables
 │   ├── db.py             # engine lifecycle and table creation
 │   ├── models.py         # ORM tables: transformations, payloads
 │   ├── repository.py     # database access, conflict-safe inserts
@@ -77,7 +77,6 @@ caching-svc/
 │   ├── test_repository.py
 │   ├── test_service.py   # unit: caching behaviour, transformer call counts
 │   └── test_transformer.py
-├── .env.example
 ├── compose.yaml
 ├── Dockerfile
 ├── pyproject.toml
@@ -146,13 +145,12 @@ Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) (it insta
 
 ```bash
 uv sync
-cp .env.example .env
 uv run uvicorn caching_svc.api:app --reload
 ```
 
 ## Configuration
 
-The service reads its settings from environment variables or a `.env` file in the working directory.
+The service reads its settings from environment variables. Both have defaults, so nothing needs to be set to run it.
 
 | Variable              | Default                         | Description                                          |
 |-----------------------|---------------------------------|------------------------------------------------------|
