@@ -157,7 +157,7 @@ The service reads its settings from environment variables. Both have defaults, s
 | `DATABASE_URL`        | `sqlite+aiosqlite:///cache.db`  | SQLAlchemy async URL                                 |
 | `TRANSFORMER_LATENCY` | `0.1`                           | Simulated transformer delay in seconds, must be ≥ 0  |
 
-In the Docker image `DATABASE_URL` defaults to `sqlite+aiosqlite:////data/cache.db`.
+The container runs in `/data`, so the default SQLite file is `/data/cache.db`, inside the `data` volume.
 
 ### Using PostgreSQL
 
