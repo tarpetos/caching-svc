@@ -17,7 +17,8 @@ FROM python:3.14.7-slim-trixie
 RUN useradd --system app && install --directory --owner app /data
 COPY --from=builder /app/.venv /app/.venv
 
-ENV PATH="/app/.venv/bin:$PATH" DATABASE_URL="sqlite+aiosqlite:////data/cache.db"
+ENV PATH="/app/.venv/bin:$PATH"
+WORKDIR /data
 USER app
 EXPOSE 8000
 
