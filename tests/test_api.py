@@ -1,26 +1,10 @@
 import uuid
-from collections.abc import Iterator
-from pathlib import Path
 
 import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from caching_svc.api import create_app
-from caching_svc.config import Settings
-from tests.conftest import CountingTransformer
-
-PAYLOAD = {
-    "list_1": ["first string", "second string", "third string"],
-    "list_2": ["other string", "another string", "last string"],
-}
-
-
-@pytest.fixture
-def client(tmp_path: Path, transformer: CountingTransformer) -> Iterator[TestClient]:
-    settings = Settings(_env_file=None, database_url=f"sqlite+aiosqlite:///{tmp_path / 'api.db'}")
-    with TestClient(create_app(settings, transformer)) as client:
-        yield client
+from tests.conftest import OUTPUT, PAYLOAD, CountingTransformer
 
 
 def test_create_and_read_payload(client: TestClient) -> None:
@@ -32,9 +16,7 @@ def test_create_and_read_payload(client: TestClient) -> None:
     read = client.get(f"/payload/{created.json()['id']}")
 
     assert read.status_code == status.HTTP_200_OK
-    assert read.json() == {
-        "output": "FIRST STRING, OTHER STRING, SECOND STRING, ANOTHER STRING, THIRD STRING, LAST STRING"
-    }
+    assert read.json() == {"output": OUTPUT}
 
 
 def test_create_reuses_identifier(client: TestClient, transformer: CountingTransformer) -> None:

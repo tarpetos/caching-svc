@@ -1,18 +1,13 @@
 import uuid
 
 from caching_svc.service import PayloadService
-from tests.conftest import CountingTransformer
-
-LIST_1 = ["first string", "second string", "third string"]
-LIST_2 = ["other string", "another string", "last string"]
+from tests.conftest import LIST_1, LIST_2, OUTPUT, CountingTransformer
 
 
 async def test_create_interleaves_transformed_strings(service: PayloadService) -> None:
     payload_id = await service.create(LIST_1, LIST_2)
 
-    assert await service.read(payload_id) == (
-        "FIRST STRING, OTHER STRING, SECOND STRING, ANOTHER STRING, THIRD STRING, LAST STRING"
-    )
+    assert await service.read(payload_id) == OUTPUT
 
 
 async def test_create_reuses_identifier_without_transforming(
